@@ -1,10 +1,16 @@
 from flask import Flask, send_from_directory
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return send_from_directory('.', 'index.html')
+    if os.path.exists('index.html'):
+        return send_from_directory('.', 'index.html')
+    elif os.path.exists('portfolio.html'):
+        return send_from_directory('.', 'portfolio.html')
+    else:
+        return 'index.html not found', 404
 
 @app.route('/<path:filename>')
 def static_files(filename):
